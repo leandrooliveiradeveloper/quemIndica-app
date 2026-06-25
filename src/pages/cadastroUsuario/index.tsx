@@ -90,6 +90,7 @@ export function CadastroUsuarioForm() {
               placeholderTextColor={colors.placeholdertext}
               value={value}
               onChangeText={onChange}
+              maxLength={150}
             />
             <View style={styles.msgErro}>{errors.nome && <Text style={styles.textErro}>{errors.nome.message}</Text>}</View>
           </>

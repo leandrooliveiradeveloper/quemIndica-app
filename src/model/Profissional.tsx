@@ -9,19 +9,19 @@ export interface Profissional {
     usuario: Usuario;
     categorias: Categoria[];
     descricao: string;
-    uriImagemPrincipal: string;
-    imagemPortifolios: Portifolio[];
+    uriImagemPrincipal?: string;
+    imagemPortifolios?: Portifolio[];
     telefone: string;
     disponibilidadeInicio: string;
     disponibilidadeFim: string;
     avaliacaoMedia: Float;
     servico: string; 
-    profissao: string;
+    profissao: string;          // é a string que traz todas as Categorias, profissões
 
-    rua: string;
-    numero: string;
+    rua?: string;
+    numero?: string;
     bairro: string;
-    cep: string;
+    // cep: string;
     estado: string;
     cidade: string;
     latitude: string;

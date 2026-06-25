@@ -59,7 +59,7 @@ export function PerfilProfissional() {
 const usuario: Usuario = {
     id: 1,
     nome: "Maria Thereza",
-    emailHash: "abc123",
+    email: '',
     dataCadastro: new Date(),
     perfil: Perfil.Profissional,
     senha: "senhaSegura",
@@ -67,11 +67,11 @@ const usuario: Usuario = {
   };
 
    const listaPortfolio: Portifolio[] = [
-     {id: "1", uri: "https://media.istockphoto.com/id/672022974/pt/foto/fresh-grilled-dorade-rose.jpg?s=1024x1024&w=is&k=20&c=oDcTXprCLWbRudU4i7eSLdvFsdaH9VmvFdcVNKq_NUk="},
-     {id: "2", uri: "https://media.istockphoto.com/id/1140296796/pt/foto/baked-dorado-with-vegetables-and-green-sauce-view-from-above.jpg?s=612x612&w=0&k=20&c=ztvlqHXYuX5fDsi_sRzBR-j1ogbv5OYBiVmPj53ssLY="},
-     {id: "3", uri: "https://media.istockphoto.com/id/916448498/pt/foto/grilled-seabream-on-carrot-onion-and-celery-stalks.jpg?s=612x612&w=0&k=20&c=59YdcFiiwaOc55FiJWF2zEM9XG0RKXIZKc-libAk03o="},
-     {id: "4", uri: "https://media.istockphoto.com/id/953091918/pt/foto/whole-grilled-dorado-with-lemon-slices-on-table.jpg?s=612x612&w=0&k=20&c=AiVZMe3-JWOPVP21zop7WOdUO8015LWUovTXuUbFIUE="},
-     {id: "5", uri: "https://media.istockphoto.com/id/892159736/pt/foto/festive-table-decoration.jpg?s=612x612&w=0&k=20&c=LSV8Q19cG-qQZfUoOB9OENePe9BV7sKQpwuM5ubrkOg="},
+     {id: 1, uri: "https://media.istockphoto.com/id/672022974/pt/foto/fresh-grilled-dorade-rose.jpg?s=1024x1024&w=is&k=20&c=oDcTXprCLWbRudU4i7eSLdvFsdaH9VmvFdcVNKq_NUk="},
+     {id: 2, uri: "https://media.istockphoto.com/id/1140296796/pt/foto/baked-dorado-with-vegetables-and-green-sauce-view-from-above.jpg?s=612x612&w=0&k=20&c=ztvlqHXYuX5fDsi_sRzBR-j1ogbv5OYBiVmPj53ssLY="},
+     {id: 3, uri: "https://media.istockphoto.com/id/916448498/pt/foto/grilled-seabream-on-carrot-onion-and-celery-stalks.jpg?s=612x612&w=0&k=20&c=59YdcFiiwaOc55FiJWF2zEM9XG0RKXIZKc-libAk03o="},
+     {id: 4, uri: "https://media.istockphoto.com/id/953091918/pt/foto/whole-grilled-dorado-with-lemon-slices-on-table.jpg?s=612x612&w=0&k=20&c=AiVZMe3-JWOPVP21zop7WOdUO8015LWUovTXuUbFIUE="},
+     {id: 5, uri: "https://media.istockphoto.com/id/892159736/pt/foto/festive-table-decoration.jpg?s=612x612&w=0&k=20&c=LSV8Q19cG-qQZfUoOB9OENePe9BV7sKQpwuM5ubrkOg="},
    ];
 
 const profissional: Profissional = {
@@ -90,7 +90,7 @@ const profissional: Profissional = {
   rua: "Rua de Cima",
   numero: "5",
   bairro: "Centro",
-  cep: "45500-000",
+  // cep: "45500-000",
   estado: "Bahia",
   cidade: "Itacaré",
   latitude: "",
@@ -102,7 +102,7 @@ const profissional: Profissional = {
     comentario: "ótimo serviço e bom atendimento", 
     dataAvaliacao: new Date(), 
     tempo: "5 meses", 
-    usuario: { id: 1, nome: "Leandro", emailHash: "", dataCadastro: new Date(), perfil: Perfil.Cliente, senha: "", status: Status.Ativo },
+    usuario: { id: 1, nome: "Leandro", email: '', dataCadastro: new Date(), perfil: Perfil.Cliente, senha: "", status: Status.Ativo },
     profissional: profissional,
   };
 
@@ -112,7 +112,7 @@ const profissional: Profissional = {
     comentario: "Não teve muito atenção, mas o serviço foi muito bom", 
     dataAvaliacao: new Date(), 
     tempo: "20 dias", 
-    usuario: { id: 1, nome: "Leandro", emailHash: "", dataCadastro: new Date(), perfil: Perfil.Cliente, senha: "", status: Status.Ativo },
+    usuario: { id: 1, nome: "Leandro", email: "", dataCadastro: new Date(), perfil: Perfil.Cliente, senha: "", status: Status.Ativo },
     profissional: profissional,
   };
 
@@ -211,7 +211,7 @@ useEffect(() => {
         <FlatList
           data={portifolio}
           horizontal
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <Image source={{uri: item.uri}} style={styles.portfolioImage} />
           )}

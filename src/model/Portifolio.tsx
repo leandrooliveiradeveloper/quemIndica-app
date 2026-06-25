@@ -1,5 +1,5 @@
 
 export interface Portifolio {
-    id: string;
+    id: number;
     uri: string;
 }
