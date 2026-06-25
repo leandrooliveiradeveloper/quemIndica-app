@@ -4,9 +4,9 @@ import { Status } from '../components/enum/Status';
 export interface Usuario {
     id: number;
     nome: string;
-    emailHash: string;
+    senha: string;
+    email: string;
     dataCadastro: Date;
     perfil: Perfil;
-    senha: string;
     status: Status;
 }
