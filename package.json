@@ -12,6 +12,7 @@
     "start:prod": "ENVFILE=.env.production react-native start"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
     "@react-native-async-storage/async-storage": "^3.1.1",
     "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native-community/slider": "^4.4.2",
@@ -23,6 +24,7 @@
     "clipboard": "^2.0.11",
     "expo-cli": "^6.3.12",
     "react": "19.2.3",
+    "react-hook-form": "^7.80.0",
     "react-native": "0.86.0",
     "react-native-bootsplash": "^7.3.1",
     "react-native-config": "^1.6.1",
@@ -33,7 +35,8 @@
     "react-native-masked-text": "^1.13.0",
     "react-native-safe-area-context": "^5.8.0",
     "react-native-screens": "^4.25.2",
-    "react-native-vector-icons": "^10.3.0"
+    "react-native-vector-icons": "^10.3.0",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

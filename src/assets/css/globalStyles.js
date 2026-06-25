@@ -12,6 +12,7 @@ export const colors = {
   btnwhatsapp: '#25d366',
   placeholdertext: '#6c6b6b',
   btncancelar: '#E74C3C',
+  formerro: '#E74C3C',
 };
 
 export const fonts = {

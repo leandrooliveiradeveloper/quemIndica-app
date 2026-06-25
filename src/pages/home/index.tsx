@@ -59,7 +59,6 @@ const categorias = [
 const usuario: Usuario = {
     id: 1,
     nome: "Maria Thereza",
-    emailHash: "abc123",
     dataCadastro: new Date(),
     perfil: Perfil.Profissional,
     senha: "senhaSegura",
@@ -69,7 +68,6 @@ const usuario: Usuario = {
   const usuario2: Usuario = {
     id: 2,
     nome: "Roberto Miranda",
-    emailHash: "abc123",
     dataCadastro: new Date(),
     perfil: Perfil.Profissional,
     senha: "senhaSegura",
