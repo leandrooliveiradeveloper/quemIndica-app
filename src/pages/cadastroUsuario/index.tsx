@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, FlatList, KeyboardAvoidingView, Platform, Modal } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
 import { TextInputMask } from 'react-native-masked-text';
@@ -13,7 +13,12 @@ import { Status } from '../../components/enum/Status';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { SalvarUsuario } from "../../api/cadastroUsuario";
+import { formatarData } from "../../utils/utils";
+import { UsuarioSave } from '../../modelUtils/UsuarioSave';
+import { ModalMensagem } from '../../components/modalMensagem';
+import { RequestResponse } from '../../modelUtils/RequestResponse';
+import useStorege from '../../hooks/useStorege';
 
 interface UsuarioForm {
   nome: string;
@@ -35,9 +40,10 @@ export function CadastroUsuarioForm() {
 
   const[usuario, setUsuario] = useState<Usuario>();
   const[validaSenha, setValidaSenha] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { saveUsuario, getUsuario }  = useStorege();
 
-
-  const { control, handleSubmit, formState: { errors } } = useForm<UsuarioForm>({
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm<UsuarioForm>({
     resolver: yupResolver(schema),
   });
 
@@ -62,17 +68,63 @@ export function CadastroUsuarioForm() {
         status: Status.Ativo,
       };
 
-     console.log(newUsuario);
-     setUsuario(newUsuario);
-    
+     setUsuario(newUsuario);     
+     salvaUsuarioApi(newUsuario);    
   };
 
+  async function salvaUsuarioApi(item: Usuario) {
+    const usuarioSave: UsuarioSave = { nome: item.nome, senha: item.senha, email: item.email, dataCadastro: formatarData(item.dataCadastro), perfil: item.perfil, status: item.status };
+    const response: RequestResponse = await SalvarUsuario(usuarioSave);
+
+    console.log("Response 1: " + JSON.stringify(response));
+
+     if(response.sucess){
+       usuarioSave.id = response.id;
+       saveUsuario("@usuario", usuarioSave);
+       console.log("Response 2: " + JSON.stringify(usuarioSave));
+        navigation.goBack();
+     }else{
+       setModalVisible(true);
+     }
+
+    //  console.log("Response 2: " + JSON.stringify(response));
+  }
+
+
+    useEffect(() => {
+    const verificarUsuario = async () => {
+      try {
+        const usuarioStorege = await getUsuario("@usuario");
+        if (usuarioStorege) {
+          setValue("nome", usuarioStorege.nome);
+          setValue("email", usuarioStorege.email);
+          setUsuario(usuarioStorege);
+          console.log("usuario JSON: " + JSON.stringify(usuarioStorege));
+        }else{
+          console.log("Erro ao obter usuário do storage: " + usuario);
+        }
+      } catch (error) {
+        console.log("Erro ao obter usuário do storage:", error);
+      }
+    };
+
+    verificarUsuario();
+  }, []); // [] garante que roda só uma vez ao montar a tela
+
+   useEffect(() => {
+    // if (usuario) {
+    //   console.log("usuario atualizado:", JSON.stringify(usuario));
+    // }
+  }, [usuario]); // esse só observa mudanças, não altera o estado
+
   
-
-
   return (
     
     <ScrollView style={styles.container}>
+
+      <Modal visible={modalVisible} animationType='fade' transparent={true}>
+        <ModalMensagem handleClose={() => setModalVisible(false)} type={'error'} message={'Erro ao salvar, por favor ternte mais tarde!'} ></ModalMensagem>
+      </Modal>
 
       {/* Header com logo e saudação */}
       <View style={styles.header}>
