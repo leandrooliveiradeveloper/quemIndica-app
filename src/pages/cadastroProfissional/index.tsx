@@ -44,18 +44,6 @@ interface ProfissionalForm {
   bairro: string;
   cidade: string;
   estado: string;
-  // categoria: number[];
-
-  // id: number;
-    // usuario: Usuario;
-    // categorias: Categoria[];
-    // imagemPortifolios: Portifolio[];
-    // profissao: string;
-
-    
-    
-    // cep: string;
-    // latitude: string;
 }
 
 const schema = Yup.object().shape({
@@ -73,11 +61,6 @@ const schema = Yup.object().shape({
   bairro: Yup.string().required('Bairro é Obrigatório'),
   cidade: Yup.string().required('Cidade é Obrigatório'),
   estado: Yup.string().required('Obrigatório'),
-  // categoria: Yup.array()
-  //   .of(Yup.number().required())
-  //   .min(1, "Selecione pelo menos uma categoria")
-  //   .max(5, "Máximo de 5 categorias")
-  //   .required("Categoria é obrigatória"),
 });
 
 
@@ -118,7 +101,8 @@ export function CadastroForm() {
 
   const[fotoPrincipal, setFotoPrincipal] = useState(null);
 
-  const[listaPortifolio, setListaPortifolio] = useState<Portifolio[]>([]);
+  // const[listaPortifolio, setListaPortifolio] = useState<Portifolio[]>([]);
+  const[listaPortifolio, setListaPortifolio] = useState<any[]>([]);
 
   const [open, setOpen] = useState(false);
   const [listaCategoria, setListaCategoria] = useState([
@@ -170,9 +154,14 @@ export function CadastroForm() {
             { mediaType: 'photo', includeBase64: true }, // includeBase64 pega os bytes
             (response) => {
                 if (response.assets && response.assets.length > 0) {
-                    const asset: any = response.assets[0];
-                    const portifolioAsset: Portifolio = {id: 3, uri: asset};
-                    setListaPortifolio((prev) => [...prev, portifolioAsset]);
+                    const asset = response.assets[0];
+                    if(listaPortifolio == undefined){
+                      console.log("ENTROU");
+                        setListaPortifolio([])
+                    }
+                    const novaListaNova = listaPortifolio;
+                    novaListaNova.push(asset);
+                    setListaPortifolio(novaListaNova);
                 }
             }
         );
@@ -203,12 +192,10 @@ export function CadastroForm() {
     setValidaSenha(false);
     setValidaCategoria(false);
 
-    console.log(categorias);
     if(categorias.length <= 0){
         setValidaCategoria(true);
         return;
     }
-
 
     if(data.senha != data.confirmaSenha){
       setValidaSenha(true);
@@ -254,9 +241,7 @@ export function CadastroForm() {
       console.log('Dados enviados:', newProfissional);
   };
 
-
   const [categorias, setCategorias] = useState([]);
-
 
   const formItems = [
     { key: 'logo', render: () => (
@@ -377,7 +362,6 @@ export function CadastroForm() {
         <Text style={styles.photoText}>Adicionar Imagem ao Portfólio</Text>
       </TouchableOpacity>
 
-        {listaPortifolio.length > 0 && 
           <FlatList
             style={styles.container}
             data={listaPortifolio}
@@ -389,11 +373,11 @@ export function CadastroForm() {
                       />
                   </View>    
               }
-              keyExtractor={item => String(item.id)}
+              // keyExtractor={item => String(item.id)}
               horizontal
               showsHorizontalScrollIndicator={false}
           />
-        }
+        
 
     </View>
 
@@ -712,7 +696,7 @@ categoryCard: {
     flex: 1,
     backgroundColor: '#FFF',
     padding: 16,
-    paddingBottom: 40,
+    paddingBottom: 20,
   },
   title: {
     fontSize: 20,
@@ -772,11 +756,12 @@ categoryCard: {
     marginTop: 8,
   },
    preview: { 
-    width: 200, 
-    height: 200, 
+    width: 150, 
+    height: 150, 
     marginTop: 16, 
-    borderRadius: 8 },
-  fotoPrincipal:{
+    borderRadius: 8, 
+  },
+   fotoPrincipal:{
     alignItems: 'center',
    },
    fotoPortifolio: {

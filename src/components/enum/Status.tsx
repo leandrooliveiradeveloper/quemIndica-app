@@ -1,6 +1,6 @@
 export enum Status {
-  Ativo = "ATIVO",
-  Inativo = "INATIVO",
+  Ativo = 1,
+  Inativo = 2,
 }
 
 function mostrarStatus(status: Status) {

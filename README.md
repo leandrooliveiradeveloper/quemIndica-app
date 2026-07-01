@@ -38,9 +38,13 @@ npx react-native bundle --platform android --dev false --entry-file index.js --b
 
 ///TODO:
 
-1 - Criar tela de Login com o método preenchendo o objeto no cadastro de profissional
-2 - Criar tela de Login com o método preenchendo o objeto no cadastro de usuario
-3 - Ver como validar os campos e validar os campos obrigatórios
+1 - Criar tela de Cadastro de Profissional preenchendo o objeto                 -- OK
+1.2 - Aparecer foto do Portifólio assim que adicionar                           --
+
+
+
+2 - Criar tela de Cadastro de Usuario preenchendo o objeto                      --OK
+3 - Ver como validar os campos e validar os campos obrigatórios                 --OK
 
 3 - Criar a tela de login gravando o usuário no "Dispositivo" para consultas futuras
 4 - Criar as chamadas da API passando o bojeto Mockado
@@ -49,13 +53,15 @@ npx react-native bundle --platform android --dev false --entry-file index.js --b
 
 7 - Criar as APIs no projeto API
 7.1 - Criar API de login
-7.1.1 - Criar hash para gravar senha do usuário
+7.1.1 - Criar hash para gravar senha do usuário 0 API
 
 8 - Criar na API uma site Admin para cadastro e relatórios
 9 - Ver onde pegar as imagens de profissões nas Categorias, ou então criar pela IA e ir subindo para o Servidor.
 
 10 - Ajustar as cores do Aplicativo e o header
 11 - Botão de "Esqueci senha"
+
+12 - Preloader
 
 
 

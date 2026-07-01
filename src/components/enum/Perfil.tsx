@@ -1,7 +1,7 @@
 export enum Perfil {
-  Cliente = "CLIENTE",
-  Profissional = "PROFISSIONAL",
-  Admin = "ADMIN",
+  Cliente = 1,
+  Profissional = 2,
+  Admin = 3,
 }
 
 function mostrarPerfil(perfil: Perfil) {
