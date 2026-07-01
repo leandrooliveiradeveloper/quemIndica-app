@@ -1,75 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { colors, globalStyles } from '../../assets/css/globalStyles';
 import { useNavigation } from '@react-navigation/native';
 import useStorege from '../../hooks/useStorege';
 import { Usuario } from '../../model/Usuario';
-import { UsuarioSave } from '../../modelUtils/UsuarioSave';
 import { RequestResponse } from '../../modelUtils/RequestResponse';
 import { ObterUsuario } from "../../api/cadastroUsuario";
 import type { RootStackParamList } from "../routes/types";
 import type { StackNavigationProp } from "@react-navigation/stack";
+import { useUserStore } from '../../utils/userStore';
+  import { useFocusEffect } from '@react-navigation/native';
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Tabs'>;
 
 export function VisualizarCadastro() {
 
   const navigation = useNavigation<NavigationProp>();
+  const { setExisteUsuario } = useUserStore();
 
-    // const navigation = useNavigation();
-    const { getUsuario, removeUsuario }  = useStorege();
-    const[usuario, setUsuario] = useState<Usuario | null>(null);
+  const { getUsuario, removeUsuario }  = useStorege();
+  const[usuario, setUsuario] = useState<Usuario | null>(null);
 
-        useEffect(() => {
+  useEffect(() => {
      if (usuario) {
        console.log("usuario atualizado:", JSON.stringify(usuario));
      }
   }, [usuario]); // esse só observa mudanças, não altera o estado
 
-     useEffect(() => {
-         const verificarUsuario = async () => {
-           try {
-              const usuarioStorege = await getUsuario("@usuario");
-               if (usuarioStorege) {
-                  const response: RequestResponse | null = await ObterUsuario(usuarioStorege.id);
-                  const usuarioApi: Usuario = response?.objeto as Usuario;
-                 setUsuario(usuarioApi);
-                }else{
-                 console.log("Erro ao obter usuário do storage: " + usuario);
-               }
-           } catch (error) {
-             console.log("Erro ao obter usuário do storage:", error);
-           }
-         };
-    
-         verificarUsuario();
-       }, []);
+
+useFocusEffect(
+    useCallback(() => {
+      const verificarUsuario = async () => {
+        console.log("verificando usuario no storage...");
+        try {
+          const usuarioStorege = await getUsuario("@usuario");
+          console.log("usuarioStorege: " + JSON.stringify(usuarioStorege));
+          if (usuarioStorege) {
+           const response: RequestResponse = await ObterUsuario(usuarioStorege.id);
+               const usuarioApi: Usuario = response?.objeto as Usuario;
+               setUsuario(usuarioApi);
+               setExisteUsuario(true);
+             }else{
+               console.log("Não achou usuario no storage: " + usuario);
+               setExisteUsuario(false);
+             }
+        } catch (error) {
+          console.log("Erro ao obter usuário do storage:", error);
+        }
+      };
+
+      verificarUsuario();
+    }, [])
+  );
 
     async function sair() {
+      console.log("Sair do app");
       const usuarioStorege = await getUsuario("@usuario");
       if(usuarioStorege!=undefined && usuarioStorege!=null){
         const usuarioRemovido = await removeUsuario("@usuario", usuarioStorege);
-        console.log("usuarioRemovido: " + usuarioRemovido);
+        console.log("usuarioRemovido: " + JSON.stringify(usuarioRemovido));
         setUsuario(null);
-        navigation.goBack();
+        setExisteUsuario(false);
       }
     }
-
-    async function obterUsuarioApi(item: Usuario): Promise<Usuario | null> {
-      const response: RequestResponse = await ObterUsuario(item?.id || 0);
-      console.log("usuarioApi JSON: " + JSON.stringify(response));
-      if(response.sucess){
-        const usuarioApi: Usuario = response.objeto as Usuario;
-        console.log("usuarioFinal API: " + JSON.stringify(usuarioApi));
-        // const usuarioFinal: Usuario = { id: usuarioApi.id, nome: usuarioApi.nome, email: usuarioApi.email, dataCadastro: new Date(usuarioApi.dataCadastro), perfil: usuarioApi.perfil, senha: usuarioApi.senha, status: usuarioApi.status };
-        setUsuario(usuarioApi);
-        console.log("usuarioFinal API: " + JSON.stringify(usuario));
-      }
-      console.log("Response 1: " + JSON.stringify(response));
-
-      return usuario;
-    }
-
 
 
   return (

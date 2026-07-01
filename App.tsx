@@ -10,12 +10,5 @@ export default function App(){
       <Routes/>
     </NavigationContainer>
   )
-
-
+  
 }
-
-// const App = () => {
-//   return <AppNavigator />;
-// };
-
-// export default App;

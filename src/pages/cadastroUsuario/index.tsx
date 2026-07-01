@@ -13,12 +13,13 @@ import { Status } from '../../components/enum/Status';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SalvarUsuario } from "../../api/cadastroUsuario";
+import { SalvarUsuario, UpdateUsuario } from "../../api/cadastroUsuario";
 import { formatarData } from "../../utils/utils";
 import { UsuarioSave } from '../../modelUtils/UsuarioSave';
 import { ModalMensagem } from '../../components/modalMensagem';
 import { RequestResponse } from '../../modelUtils/RequestResponse';
 import useStorege from '../../hooks/useStorege';
+import { useUserStore } from '../../utils/userStore';
 
 interface UsuarioForm {
   nome: string;
@@ -42,6 +43,8 @@ export function CadastroUsuarioForm() {
   const[validaSenha, setValidaSenha] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const { saveUsuario, getUsuario }  = useStorege();
+  const { setExisteUsuario } = useUserStore();
+  const [modalMessage, setModalMessage] = useState('');
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<UsuarioForm>({
     resolver: yupResolver(schema),
@@ -74,7 +77,16 @@ export function CadastroUsuarioForm() {
 
   async function salvaUsuarioApi(item: Usuario) {
     const usuarioSave: UsuarioSave = { nome: item.nome, senha: item.senha, email: item.email, dataCadastro: formatarData(item.dataCadastro), perfil: item.perfil, status: item.status };
-    const response: RequestResponse = await SalvarUsuario(usuarioSave);
+
+    let response: RequestResponse = {} as RequestResponse;
+
+    if(usuario != undefined && usuario.id != undefined && usuario.id > 0){
+      console.log("Atualizando usuario: " + JSON.stringify(usuarioSave));
+      response = await UpdateUsuario(usuario.id, usuarioSave);
+    }else{
+      console.log("Salvando usuario: " + JSON.stringify(usuarioSave));
+      response = await SalvarUsuario(usuarioSave);
+    }
 
     console.log("Response 1: " + JSON.stringify(response));
 
@@ -82,12 +94,13 @@ export function CadastroUsuarioForm() {
        usuarioSave.id = response.id;
        saveUsuario("@usuario", usuarioSave);
        console.log("Response 2: " + JSON.stringify(usuarioSave));
-        navigation.goBack();
+       setExisteUsuario(true);
+       navigation.goBack();
      }else{
        setModalVisible(true);
+       setModalMessage(response.message);
      }
 
-    //  console.log("Response 2: " + JSON.stringify(response));
   }
 
 
@@ -123,7 +136,7 @@ export function CadastroUsuarioForm() {
     <ScrollView style={styles.container}>
 
       <Modal visible={modalVisible} animationType='fade' transparent={true}>
-        <ModalMensagem handleClose={() => setModalVisible(false)} type={'error'} message={'Erro ao salvar, por favor ternte mais tarde!'} ></ModalMensagem>
+        <ModalMensagem handleClose={() => setModalVisible(false)} type={'error'} message={modalMessage} ></ModalMensagem>
       </Modal>
 
       {/* Header com logo e saudação */}

@@ -16,8 +16,7 @@ const useStorege = () => {
      const getUsuario = async (key: string) => {
         try{
             const usuariostr = await AsyncStorage.getItem(key);
-            const usuarioFinal: Usuario = JSON.parse(usuariostr?.toString() || '{}');
-            // console.log("usuarioFinal: " + usuarioFinal);
+            const usuarioFinal: Usuario = usuariostr != null ? JSON.parse(usuariostr?.toString()) : null;
             return usuarioFinal
         }catch(error){
             console.log("Erro ao buscar", error);

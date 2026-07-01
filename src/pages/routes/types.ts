@@ -4,4 +4,5 @@ export type RootStackParamList = {
   PerfilProfissional: undefined;
   CadastroUsuarioForm: undefined;
   VisualizarCadastro: undefined;
+  Login: undefined;
 };

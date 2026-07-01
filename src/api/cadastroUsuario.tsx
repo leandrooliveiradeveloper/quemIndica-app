@@ -7,7 +7,7 @@ const BASE_URL = "http://localhost:3000"; // ou IP da máquina
 
 
 export async function SalvarUsuario(usuario: UsuarioSave) {
-   const response = await fetch(`${BASE_URL}/CadastrarUsuario`, {
+   const response = await fetch(`${BASE_URL}/Usuario/CadastrarUsuario`, {
      method: 'POST',
      headers: { 'Content-Type': 'application/json' },
      body: JSON.stringify(usuario)
@@ -15,17 +15,30 @@ export async function SalvarUsuario(usuario: UsuarioSave) {
    return response.json();
 }
 
-
-// export async function GetUsuarios(id: number) {
-//   const response = await fetch(`${BASE_URL}/selecoes`);
-//   return response.json();
-// }
-
 export async function ObterUsuario(id: number) {
-  const response = await fetch(`${BASE_URL}/ObterUsuario/${id}`, {
+  console.log("ObterUsuario id: " + id);
+  const response = await fetch(`${BASE_URL}/Usuario/ObterUsuario/${id}`, {
     method: "GET",
   });
   return response.json();
+}
+
+export async function LogarUsuario(usuario: any) {
+   const response = await fetch(`${BASE_URL}/Usuario/Login`, {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify(usuario)
+   });
+   return response.json();
+}
+
+export async function UpdateUsuario(id: number, usuario: any) {
+   const response = await fetch(`${BASE_URL}/Usuario/Update/${id}`, {
+     method: 'PUT',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify(usuario)
+   });
+   return response.json();
 }
 
 

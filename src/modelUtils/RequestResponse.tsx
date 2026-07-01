@@ -5,5 +5,5 @@ export interface RequestResponse {
     message: string;
     id: number;
     sucess: boolean;
-    objeto: Usuario | null;
+    objeto: any | null;
 }

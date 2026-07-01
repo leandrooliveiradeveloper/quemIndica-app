@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {Home} from '../home';
-import {Password } from '../passwords';
 import {Login } from '../login';
 import {Favoritos } from '../favoritos';
 import { Busca } from '../busca';
@@ -11,25 +10,29 @@ import { CadastroUsuarioForm } from '../cadastroUsuario';
 import { VisualizarCadastro } from '../visualizarCadastro';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { RootStackParamList } from "./types";
-
+import useStorege from '../../hooks/useStorege';
 import { colors } from '../../assets/css/globalStyles';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useUserStore } from '../../utils/userStore';
+
 
 const Tab = createBottomTabNavigator();
-// const Stack = createNativeStackNavigator();
-
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-//  export type RootStackParamList = {
-//    Tabs: undefined;
-//    CadastroForm: undefined;
-//    PerfilProfissional: undefined;
-//  };
-
 export function TabRoutes(){
+    const { getUsuario }  = useStorege();
+    const { existeUsuario } = useUserStore();
+
+function PerfilWrapper() {
+  const { existeUsuario } = useUserStore();
+  return existeUsuario ? <VisualizarCadastro /> : <Login />;
+}
 
     return(
 
         <Tab.Navigator>
+
             <Tab.Screen 
                 name="Home" 
                 component={Home}
@@ -79,6 +82,7 @@ export function TabRoutes(){
                 }}>
             </Tab.Screen>
 
+{!existeUsuario && 
             <Tab.Screen 
                 name="Perfil" 
                 component={Login}
@@ -93,9 +97,25 @@ export function TabRoutes(){
                         return <Icon name="person" size={size} color={color} />
                     }
                 }}>
-            </Tab.Screen>
+            </Tab.Screen>      
+}    
+{existeUsuario && 
+            <Tab.Screen 
+                name="Perfil" 
+                component={VisualizarCadastro}
+                options={{
+                    tabBarShowLabel: true,
+                    headerShown: false,
+                    tabBarIcon: ({focused, size, color}) =>{
+                        if(focused){
+                            return <Icon name="person" size={size} color={color} />
+                        }
 
-
+                        return <Icon name="person" size={size} color={color} />
+                    }
+                }}>
+            </Tab.Screen>    
+}   
 
         </Tab.Navigator>
     )
