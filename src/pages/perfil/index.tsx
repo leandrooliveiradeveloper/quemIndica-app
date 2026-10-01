@@ -233,7 +233,7 @@ useEffect(() => {
       {/* Cabeçalho */}
       <View style={styles.header}>
           <Image 
-              source={{uri: `${URL_IMG_PROFISSIONAL}/${profissionalAtual?.uriimagemprincipal}`}} 
+              source={{uri: `${profissionalAtual?.uriimagemprincipal}`}} 
               style={styles.avatar} resizeMode='cover'/>
         <View style={styles.info}>
           <Text style={styles.nome}>{profissionalAtual?.nome}</Text>

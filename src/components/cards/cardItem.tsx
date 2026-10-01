@@ -28,10 +28,7 @@ export function CardItem({ item, remover, onHandlerFavoritar }: CardItemProps) {
 
  const navigation = useNavigation<NavigationProp>();
 
- console.log('URL_IMG_PROFISSIONAL item:', JSON.stringify(item));
- console.log('URL_IMG_PROFISSIONAL:', URL_IMG_PROFISSIONAL);
  console.log('uriimagemprincipal:', item?.uriimagemprincipal);
- console.log('uriimagemprincipal 2:', `${URL_IMG_PROFISSIONAL}/${item?.uriimagemprincipal}?t=${Date.now()}`);
 
  function handleVerPerfil(item: ProfissionalCard) {
     const result = updateCliques(item.id);
@@ -43,7 +40,7 @@ export function CardItem({ item, remover, onHandlerFavoritar }: CardItemProps) {
   return (
 
    <View style={styles.card}>
-      <Image source={{uri: `${URL_IMG_PROFISSIONAL}/${item?.uriimagemprincipal}?t=${Date.now()}`}} style={styles.avatar} />
+      <Image source={{uri: `${item?.uriimagemprincipal}?t=${Date.now()}`}} style={styles.avatar} />
       <View style={styles.info}>
         <Text style={styles.nome}>{item.nome}</Text>
         <Text style={styles.profissao}>{item.categorias} | {item.cidade}</Text>

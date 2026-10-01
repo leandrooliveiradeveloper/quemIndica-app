@@ -469,7 +469,7 @@ export function CadastroForm() {
       <View style={styles.fotoPrincipal}>
         {profissional?.uriimagemprincipal && !fotoPrincipal &&
             <Image
-            source={{uri: `${URL_IMG_PROFISSIONAL}/${profissional?.uriimagemprincipal}?t=${Date.now()}`}}
+            source={{uri: `${profissional?.uriimagemprincipal}?t=${Date.now()}`}}
             style={styles.preview}
             />
         }
