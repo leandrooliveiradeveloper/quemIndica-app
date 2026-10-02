@@ -18,6 +18,7 @@ https://oblador.github.io/react-native-vector-icons/?utm_source=copilot.com#Font
 https://www.flaticon.com/free-icon/growth_4185383?related_id=4185383&origin=pack
 
 # rodar o projeto API junto com o app localmente
+adb devices
 adb -s ZF524WXRF5 reverse tcp:3000 tcp:3000
 
 # gerar icones para o app
@@ -35,8 +36,9 @@ npx react-native run-android --variant=release
 # Instalar no celular
 adb install -r android/app/build/outputs/apk/release/app-release.apk
 
-
-
+# acessar o banco remoto pelo powershell
+Acessar pelo PowerShell
+psql "postgresql://quemindica_user:4CDVTnBTYM4Xn2o9p0QupXgG7XYnuqXr@dpg-dau1oo6k1f9s73a18ql0-a.oregon-postgres.render.com/quemindica"
 
 ///TODO:
 
@@ -62,7 +64,6 @@ adb install -r android/app/build/outputs/apk/release/app-release.apk
 --*********  TRABALHANDO  ***********--
 
 
-
 --*********  FEITO  ***********--
 
 1 - Hora no cadastro do profissional não foi obrigatório
@@ -86,3 +87,5 @@ adb install -r android/app/build/outputs/apk/release/app-release.apk
 18 - opção do usuário poder excluir o usuário (Desativar)
 19 - Criar botão de compartilhamento do usuário para um profissional ainda não cadastrado
 
+1 - O preloader quando salva o Usuário/Profissional está fechando o "preloader" antes da hora                                    
+2 - Ao salvar o Profissional sem mexer na foto a foto está sendo apagado na coluna "uriimagemprincipal" mas não apaga do banco      -

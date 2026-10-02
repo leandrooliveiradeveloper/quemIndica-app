@@ -279,7 +279,6 @@ export function CadastroForm() {
   
       console.log("response: " + JSON.stringify(response));
 
-      setLoading(false);
        if(response.sucess){
           console.log("salvaProfissaoApi ENTROU");
           const newProfissional = response.objeto;
@@ -292,8 +291,10 @@ export function CadastroForm() {
             await preencheImagemPrincipal(newProfissional);
           }
           
+          setLoading(false);
           navigation.goBack();
        }else{
+         setLoading(false);
          setModalVisible(true);
          setModalMessage(response.message);
        }

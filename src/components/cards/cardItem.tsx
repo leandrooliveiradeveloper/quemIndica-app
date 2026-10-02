@@ -28,8 +28,6 @@ export function CardItem({ item, remover, onHandlerFavoritar }: CardItemProps) {
 
  const navigation = useNavigation<NavigationProp>();
 
- console.log('uriimagemprincipal:', item?.uriimagemprincipal);
-
  function handleVerPerfil(item: ProfissionalCard) {
     const result = updateCliques(item.id);
     navigation.navigate('PerfilProfissional', { id: item.id });
